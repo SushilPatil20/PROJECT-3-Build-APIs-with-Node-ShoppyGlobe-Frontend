@@ -1,0 +1,26 @@
+import React from "react";
+import Logo from "./logo";
+import { Link } from "react-router-dom";
+
+const Header = () => {
+  return (
+    <header className="flex items-center justify-between py-6 border-b sticky top-0 bg-blue-800 px-8">
+      <Logo />
+      <Link to={`/cart`}>
+        <div className="relative">
+          <span className="text-2xl text-white">
+            <i className="fa-solid fa-cart-shopping"></i>
+          </span>
+          <span
+            className="absolute right-0 -top-4 bg-blue-400 min-w-7 h-7 
+    flex items-center justify-center rounded-full text-white -z-10"
+          >
+            3
+          </span>
+        </div>
+      </Link>
+    </header>
+  );
+};
+
+export default Header;
