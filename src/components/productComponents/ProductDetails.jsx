@@ -1,40 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader";
+import { useFetchSingleProduct } from "../../hooks/useFetchSingleProduct";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // ------------- Hook for fetching the single product from API -------------
+  const { product, isLoading, error } = useFetchSingleProduct(
+    "https://dummyjson.com/products/",
+    id
+  );
   const [mainImage, setMainImage] = useState("");
   const [quantity, setQuantity] = useState(1);
 
+  // ------------- Setting initital image -------------
   useEffect(() => {
-    const fetchProductDetails = async () => {
-      try {
-        const fetchedProductDetails = await fetch(
-          `https://dummyjson.com/products/${id}`
-        );
+    if (product) {
+      setMainImage(product.images[0]);
+    }
+  }, [product]);
 
-        const productDetails = await fetchedProductDetails.json();
-        setProduct(productDetails);
-        setMainImage(productDetails.images[0]);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProductDetails();
-  }, [id]);
-
-  // Function to increase quantity
+  // ------------- Function to increase quantity -------------
   const increaseQuantity = () => {
     setQuantity((prevQty) => prevQty + 1);
   };
 
-  // Function to decrease quantity but ensure it doesn't go below 1
+  //------------- Function to decrease quantity but ensure it doesn't go below 1 -------------
   const decreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity((prevQty) => prevQty - 1);
@@ -42,6 +33,7 @@ const ProductDetails = () => {
   };
 
   if (isLoading) return <Loader />;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="container mx-auto p-4">
@@ -93,25 +85,22 @@ const ProductDetails = () => {
               <strong>Warranty:</strong> {product.warrantyInformation}
             </p>
 
-            {/* Show quantity controls only if the product is in stock */}
-            {product.availabilityStatus === "In Stock" && (
-              <div className="flex items-center space-x-4 mt-6">
-                <p className="text-lg font-semibold">Quantity:</p>
-                <button
-                  onClick={decreaseQuantity}
-                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                >
-                  -
-                </button>
-                <span>{quantity}</span>
-                <button
-                  onClick={increaseQuantity}
-                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                >
-                  +
-                </button>
-              </div>
-            )}
+            <div className="flex items-center space-x-4 mt-6">
+              <p className="text-lg font-semibold">Quantity:</p>
+              <button
+                onClick={decreaseQuantity}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                -
+              </button>
+              <span>{quantity}</span>
+              <button
+                onClick={increaseQuantity}
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
       }

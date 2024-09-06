@@ -1,7 +1,6 @@
-import Loader from "../loader";
+import Loader from "../Loader";
 import ProductItem from "./ProductItem";
-// import useFetchProducts from "../../hooks/useFetchProducts";
-import useFetchProducts from "../../hooks/useFetchProducts";
+import { useFetchProducts } from "../../hooks/useFetchProducts";
 
 const ProductList = () => {
   const { products, isLoading, error } = useFetchProducts(
