@@ -10,6 +10,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "../../redux/reducers/cartSlice";
+import BackButton from "../BackButton";
 const ProductDetails = () => {
   const { id } = useParams();
   const cartItems = useSelector(selectCartItems);
@@ -58,12 +59,7 @@ const ProductDetails = () => {
   return (
     <div className="container mx-auto p-4">
       {/* ------------- Back to Home Button ------------- */}
-      <button
-        className="mb-4 text-blue-500 hover:underline"
-        onClick={() => window.history.back()}
-      >
-        &larr; Back to Home
-      </button>
+      <BackButton />
 
       {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

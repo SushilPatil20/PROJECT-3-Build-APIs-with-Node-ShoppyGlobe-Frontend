@@ -10,12 +10,14 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "../../redux/reducers/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const cartItems = useSelector(selectCartItems);
   const cartItemsTotal = useSelector(selectCartTotal);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   if (cartItems.length === 0) {
     return (
@@ -35,6 +37,13 @@ const Cart = () => {
 
   const handleDecreaseQuantity = (id) => {
     dispatch(decreaseQuantity(id));
+  };
+
+  // -------------- Handle Submit --------------
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/checkout");
   };
 
   return (
@@ -58,19 +67,21 @@ const Cart = () => {
 
           <div className="bg-white p-6 rounded-lg shadow-md max-h-fit">
             <h2 className="text-xl font-bold mb-4">Cart Summary</h2>
-            <div className="flex justify-between mb-2">
-              <span className="text-gray-600">Total Items:</span>
-              <span className="font-semibold">{cartItems.length}</span>
-            </div>
-            <div className="flex justify-between mb-6">
-              <span className="text-gray-600">Total Price:</span>
-              <span className="font-semibold">
-                {formatePrize(cartItemsTotal)}
-              </span>
-            </div>
-            <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">
-              Proceed to Checkout
-            </button>
+            <form onSubmit={handleSubmit}>
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Total Items:</span>
+                <span className="font-semibold">{cartItems.length}</span>
+              </div>
+              <div className="flex justify-between mb-6">
+                <span className="text-gray-600">Total Price:</span>
+                <span className="font-semibold">
+                  {formatePrize(cartItemsTotal)}
+                </span>
+              </div>
+              <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                Proceed to Checkout
+              </button>
+            </form>
           </div>
         </div>
       </div>
