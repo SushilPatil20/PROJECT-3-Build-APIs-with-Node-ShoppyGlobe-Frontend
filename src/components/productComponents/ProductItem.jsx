@@ -1,8 +1,19 @@
-import React from "react";
 import { formatePrize } from "../../utils/helpers";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/reducers/cartSlice";
+import { selectCartItems } from "../../redux/selectors/cartSelectors";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const ProductItem = ({ product }) => {
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ ...product, quantity }));
+  };
+
   return (
     <div
       key={product.id}
@@ -24,7 +35,10 @@ const ProductItem = ({ product }) => {
           <span className="text-lg font-bold text-gray-800">
             {formatePrize(product.price)}
           </span>
-          <button className="px-3 py-2 bg-blue-600 text-white text-xs font-bold uppercase rounded">
+          <button
+            onClick={() => handleAddToCart()}
+            className="px-3 py-2 bg-blue-600 text-white text-xs font-bold uppercase rounded"
+          >
             Add to Cart
           </button>
         </div>

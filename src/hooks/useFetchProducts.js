@@ -31,7 +31,6 @@ export const useFetchProducts = (url) => {
                 setIsLoading(false)
             }
         }
-
         fetchProducts();
     }, [url]);
     return { products, isLoading, error }

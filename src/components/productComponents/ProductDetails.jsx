@@ -2,16 +2,30 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader";
 import { useFetchSingleProduct } from "../../hooks/useFetchSingleProduct";
-
+import { formatePrize } from "../../utils/helpers";
+import { selectCartItems } from "../../redux/selectors/cartSelectors";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  increaseQuantity,
+  decreaseQuantity,
+} from "../../redux/reducers/cartSlice";
 const ProductDetails = () => {
   const { id } = useParams();
+  const cartItems = useSelector(selectCartItems);
+
   // ------------- Hook for fetching the single product from API -------------
   const { product, isLoading, error } = useFetchSingleProduct(
     "https://dummyjson.com/products/",
     id
   );
+
+  const cartProduct = cartItems.find((item) => item.id == id);
+  const cartProductQuantity = cartProduct ? cartProduct.quantity : 1;
   const [mainImage, setMainImage] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(cartProductQuantity);
+
+  const dispatch = useDispatch();
 
   // ------------- Setting initital image -------------
   useEffect(() => {
@@ -21,15 +35,21 @@ const ProductDetails = () => {
   }, [product]);
 
   // ------------- Function to increase quantity -------------
-  const increaseQuantity = () => {
-    setQuantity((prevQty) => prevQty + 1);
+  const handleIncrease = (id) => {
+    dispatch(increaseQuantity(id));
+    setQuantity(quantity + 1);
   };
 
-  //------------- Function to decrease quantity but ensure it doesn't go below 1 -------------
-  const decreaseQuantity = () => {
+  // ------------- Function to decrease quantity but ensure it doesn't go below 1 -------------
+  const handleDecrease = (id) => {
     if (quantity > 1) {
-      setQuantity((prevQty) => prevQty - 1);
+      dispatch(decreaseQuantity(id));
+      setQuantity(quantity - 1);
     }
+  };
+
+  const handleAddToCart = (quantity) => {
+    dispatch(addToCart({ ...product, quantity }));
   };
 
   if (isLoading) return <Loader />;
@@ -37,7 +57,7 @@ const ProductDetails = () => {
 
   return (
     <div className="container mx-auto p-4">
-      {/* Back to Home Button */}
+      {/* ------------- Back to Home Button ------------- */}
       <button
         className="mb-4 text-blue-500 hover:underline"
         onClick={() => window.history.back()}
@@ -47,14 +67,14 @@ const ProductDetails = () => {
 
       {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Product Image & Gallery */}
+          {/* ------------- Product Image & Gallery ------------- */}
           <div className="lg:col-span-2">
             <img
               src={mainImage}
               alt={product.title}
               className="w-full h-80 object-contain rounded-lg shadow-lg"
             />
-            {/* Thumbnail Images */}
+            {/* ------------- Thumbnail Images ------------- */}
             <div className="flex mt-4 space-x-2 overflow-x-scroll scrollbar-hide">
               {product.images.map((image, index) => (
                 <img
@@ -68,12 +88,12 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Product Details */}
+          {/* ------------- Product Details ------------- */}
           <div className="space-y-4">
             <h1 className="text-3xl font-bold">{product.title}</h1>
             <p className="text-lg text-gray-600">{product.description}</p>
             <p className="text-2xl font-semibold text-green-600">
-              ${product.price}
+              {formatePrize(product.price * quantity)}
             </p>
             <p className="text-gray-500">
               <strong>Brand:</strong> {product.brand}
@@ -85,20 +105,28 @@ const ProductDetails = () => {
               <strong>Warranty:</strong> {product.warrantyInformation}
             </p>
 
-            <div className="flex items-center space-x-4 mt-6">
-              <p className="text-lg font-semibold">Quantity:</p>
+            <div>
+              <div className="flex items-center space-x-4 mt-6">
+                <p className="text-lg font-semibold">Quantity:</p>
+                <button
+                  onClick={() => handleDecrease(id)}
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  -
+                </button>
+                <span>{quantity}</span>
+                <button
+                  onClick={() => handleIncrease(id)}
+                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  +
+                </button>
+              </div>
               <button
-                onClick={decreaseQuantity}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={() => handleAddToCart(quantity)}
+                className="px-3 py-2 bg-blue-600 text-white text-xs font-bold uppercase rounded mt-4"
               >
-                -
-              </button>
-              <span>{quantity}</span>
-              <button
-                onClick={increaseQuantity}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-              >
-                +
+                Add To Cart
               </button>
             </div>
           </div>

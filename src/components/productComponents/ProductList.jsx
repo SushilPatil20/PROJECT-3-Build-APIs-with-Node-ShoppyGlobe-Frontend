@@ -6,7 +6,6 @@ const ProductList = () => {
   const { products, isLoading, error } = useFetchProducts(
     `https://dummyjson.com/products`
   );
-
   if (isLoading) return <Loader />;
   if (error) return <p>{error}</p>;
 

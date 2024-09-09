@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Logo = () => {
   return (
-    <Link to={"/"}>
+    <Link to={"/home"}>
       <span className="text-white text-2xl">ShoppyGlobe</span>
     </Link>
   );
