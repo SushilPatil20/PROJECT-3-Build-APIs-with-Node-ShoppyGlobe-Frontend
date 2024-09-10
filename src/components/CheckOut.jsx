@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux"; // To get cart items
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
 import { clearCart } from "../redux/reducers/cartSlice";
+import { formatePrize } from "../utils/helpers";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -15,8 +16,7 @@ const Checkout = () => {
 
   const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state.cart.items); // Cart items from Redux store
-  console.log(cart);
+  const cart = useSelector((state) => state.cart.items); // --------------- Cart items from Redux store
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -36,7 +36,7 @@ const Checkout = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md my-12">
       <BackButton />
 
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Checkout</h2>
@@ -44,7 +44,7 @@ const Checkout = () => {
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        {/* Name Field */}
+        {/* ----------- Name Field ----------- */}
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Name</label>
           <input
@@ -57,7 +57,7 @@ const Checkout = () => {
           />
         </div>
 
-        {/* Address Field */}
+        {/* ----------- Address Field ----------- */}
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Address</label>
           <input
@@ -70,7 +70,7 @@ const Checkout = () => {
           />
         </div>
 
-        {/* City Field */}
+        {/* ----------- City Field ----------- */}
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">City</label>
           <input
@@ -83,7 +83,7 @@ const Checkout = () => {
           />
         </div>
 
-        {/* ZIP Code Field */}
+        {/* ----------- ZIP Code Field ----------- */}
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">ZIP Code</label>
           <input
@@ -96,7 +96,7 @@ const Checkout = () => {
           />
         </div>
 
-        {/* Payment Method Field */}
+        {/* ----------- Payment Method Field ----------- */}
         <div className="mb-4 col-span-1 md:col-span-2">
           <label className="block text-gray-600 mb-2">Payment Method</label>
           <select
@@ -110,7 +110,6 @@ const Checkout = () => {
           </select>
         </div>
 
-        {/* Submit Button */}
         <div className="col-span-1 md:col-span-2">
           <button
             type="submit"
@@ -121,21 +120,23 @@ const Checkout = () => {
         </div>
       </form>
 
-      {/* Order Summary */}
+      {/* ----------- Order Summary ----------- */}
       <div className="mt-8 p-6 bg-gray-100 rounded-lg">
         <h3 className="text-xl font-bold mb-4 text-gray-700">Order Summary</h3>
         {cart.map((item) => (
           <div key={item.id} className="flex justify-between mb-2">
             <span>
-              {item.name} - {item.quantity} x ${item.price}
+              {item.name} - {item.quantity} x {formatePrize(item.price)}
             </span>
-            <span>${item.quantity * item.price}</span>
+            <span>{formatePrize(item.quantity * item.price)}</span>
           </div>
         ))}
         <div className="flex justify-between font-semibold text-lg mt-4">
           <span>Total:</span>
           <span>
-            ${cart.reduce((acc, item) => acc + item.price * item.quantity, 0)}
+            {formatePrize(
+              cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+            )}
           </span>
         </div>
       </div>

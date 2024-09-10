@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import Error from "./components/Error.jsx";
@@ -8,13 +8,28 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import Cart from "./components/cartComponents/Cart.jsx";
 import ProductList from "./components/productComponents/ProductList.jsx";
-import ProductDetails from "./components/productComponents/ProductDetails.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
-import CheckOut from "./components/CheckOut.jsx";
-import OrderConfirmation from "./components/OrderConfirmation.jsx";
+import Loader from "./components/Loader.jsx";
+
+// ------------ Lazzy Loading Cart page ------------
+const Cart = lazy(() => import(`./components/cartComponents/Cart.jsx`));
+
+// ------------ Lazzy Loading Product Details page ------------
+const ProductDetails = lazy(() =>
+  import(`./components/productComponents/ProductDetails.jsx`)
+);
+
+// ------------ Lazzy Loading CheckOut Page ------------
+const CheckOut = lazy(() => import(`./components/CheckOut.jsx`));
+
+// ------------ Lazzy Loading Order Confirmation Page ------------
+const OrderConfirmation = lazy(() =>
+  import(`./components/OrderConfirmation.jsx`)
+);
+
+// ------------------- App routes -------------------
 
 const appRoutes = createBrowserRouter([
   {
@@ -31,19 +46,35 @@ const appRoutes = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Cart />
+          </Suspense>
+        ),
       },
       {
         path: "/productDetails/:id",
-        element: <ProductDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductDetails />
+          </Suspense>
+        ),
       },
       {
         path: "/checkout",
-        element: <CheckOut />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CheckOut />
+          </Suspense>
+        ),
       },
       {
         path: "/orderConfirmation",
-        element: <OrderConfirmation />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderConfirmation />
+          </Suspense>
+        ),
       },
     ],
     errorElement: <Error />,

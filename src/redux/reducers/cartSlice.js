@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { storeInLocal } from "../../utils/helpers";
 
 const cartItems = JSON.parse(localStorage.getItem('items'));
 
@@ -8,36 +9,36 @@ const cartSlice = createSlice({
         items: cartItems || []
     },
     reducers: {
-        // Action to add item to cart
+        // --------------- Action to add item to Cart ---------------
         addToCart: (state, action) => {
             const existingItem = state.items.find((item => item.id === action.payload.id))
             if (!existingItem) {
                 state.items.push({ ...action.payload, quantity: action.payload.quantity })
             }
-
-            localStorage.setItem('items', JSON.stringify(state.items))
+            storeInLocal('items', state.items);
+            // localStorage.setItem('items', JSON.stringify(state.items))
         },
         removeFromCart: (state, action) => {
             state.items = state.items.filter((item) => item.id !== action.payload)
-            localStorage.setItem('items', JSON.stringify(state.items))
+            storeInLocal('items', state.items);
         },
         increaseQuantity: (state, action) => {
             const item = state.items.find((item) => item.id == action.payload)
             if (item) {
                 item.quantity += 1;
             }
-            localStorage.setItem('items', JSON.stringify(state.items));
-
+            storeInLocal('items', state.items);
         }, decreaseQuantity: (state, action) => {
             const item = state.items.find((item) => item.id == action.payload)
             if (item && item.quantity > 1) {
                 item.quantity -= 1;
             }
-            localStorage.setItem('items', JSON.stringify(state.items));
+            storeInLocal('items', state.items);
         },
+        // --------------- Clearing Cart ---------------
         clearCart: (state, action) => {
             state.items = []
-            localStorage.setItem('items', JSON.stringify(state.items));
+            storeInLocal('items', state.items);
         }
     }
 })
