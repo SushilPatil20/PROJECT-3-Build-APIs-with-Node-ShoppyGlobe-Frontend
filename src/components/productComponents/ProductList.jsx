@@ -55,7 +55,7 @@ const ProductList = () => {
           <input
             type="text"
             id="search"
-            className="px-4 py-2 border border-gray-500 focus:outline-blue-400 rounded-md"
+            className="px-4 py-2 w-full border border-gray-500 focus:outline-blue-400 rounded-md "
             placeholder="Search products..."
             value={searchQuery}
             onChange={handleSearchChange}

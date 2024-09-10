@@ -1,11 +1,8 @@
-
 <strong>Go Live : </strong><span><span>
 
+# React + Vite + Redux
 
-# React + Vite + Redux 
-
-
-## Project Setup Guide 
+## Project Setup Guide
 
 Follow these steps to set up and run the project locally.
 
@@ -17,7 +14,7 @@ Before you begin, ensure you have the following installed on your machine:
 2. **npm** (Node Package Manager): Comes with Node.js. Verify installation by running:
    ```bash
    npm -v
-
+   ```
 
 ## 1. Clone the Repository
 
@@ -30,11 +27,11 @@ Navigate into the project directory:
 cd shoppyGlobe
 
 
-## 2. Install Dependencies 
+## 2. Install Dependencies
 
 Install the necessary dependencies using npm:
 
-npm install 
+npm install
 
 
 ## 3. Start the Development Server
@@ -62,3 +59,4 @@ Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
