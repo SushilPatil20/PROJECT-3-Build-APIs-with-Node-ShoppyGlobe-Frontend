@@ -19,18 +19,17 @@ const Checkout = () => {
   const cart = useSelector((state) => state.cart.items); // --------------- Cart items from Redux store
   const navigate = useNavigate();
 
+  // ----------- setting form data on input change -----------
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform form validation here
-
-    // ----------- If valid, proceed with order confirmation -----------
     alert("Order placed successfully!");
-    dispatch(clearCart());
 
+    // ----------- Clearing Cart -----------
+    dispatch(clearCart());
     // ----------- Redirect to confirmation page -----------
     navigate("/orderConfirmation");
   };
@@ -38,7 +37,6 @@ const Checkout = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md my-12">
       <BackButton />
-
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Checkout</h2>
       <form
         onSubmit={handleSubmit}
