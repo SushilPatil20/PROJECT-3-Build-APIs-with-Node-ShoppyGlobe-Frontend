@@ -1,4 +1,4 @@
-<strong>Go Live : </strong><span>https://shoppyglobe.netlify.app/home<span>
+<strong>Go Live : </strong><span>https://shoppyglobe.netlify.app<span>
 
 # React + Vite + Redux
 
