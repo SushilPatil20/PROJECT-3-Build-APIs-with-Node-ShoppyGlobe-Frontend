@@ -1,5 +1,3 @@
-<strong>Go Live : </strong><span>https://shoppyglobe.netlify.app<span>
-
 # React + Vite + Redux
 
 ## Project Setup Guide
