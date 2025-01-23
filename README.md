@@ -4,6 +4,21 @@
 
 ShoppyGlobe is a modern e-commerce platform built with React, Vite, and Redux. This project aims to provide a seamless shopping experience with high performance and scalability. It leverages Vite for fast development and Redux for state management.
 
+
+## Features
+
+This project includes the following implemented features:
+
+1. **Product Search**: Users can search for products using a keyword search bar.
+2. **Category Filtering**: Products can be filtered by category for easier browsing.
+3. **Add to Cart**: Seamless add-to-cart functionality for selected products.
+4. **Quantity Management**: Users can adjust product quantities directly in the cart.
+5. **Product Detail View**: Detailed view of each product, including images, description, and price.
+6. **Checkout Page**: A fully functional checkout page summarizing the cart and total price.
+7. **Cart Management**: A robust cart system with the ability to add, remove, and modify items.
+8. **Responsive Design**: Fully responsive for desktops, tablets, and mobile devices.
+
+
 ## Project Setup Guide
 
 Follow these steps to set up and run the project locally.
