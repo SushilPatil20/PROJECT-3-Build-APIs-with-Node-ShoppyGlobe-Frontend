@@ -1,5 +1,9 @@
 # React + Vite + Redux
 
+## Description
+
+ShoppyGlobe is a modern e-commerce platform built with React, Vite, and Redux. This project aims to provide a seamless shopping experience with high performance and scalability. It leverages Vite for fast development and Redux for state management.
+
 ## Project Setup Guide
 
 Follow these steps to set up and run the project locally.
@@ -46,9 +50,6 @@ This will start the app at http://localhost:5173.
 To create an optimized production build:
 
 npm run build.
-
-
-
 
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
